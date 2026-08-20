@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6f5f1">
+<title>ZZVJ drezurní úloha</title>
+<script>(function(){try{var t=localStorage.getItem('zzvj-tema');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+<style>
+:root{--bg:#f6f5f1;--card:#fff;--ink:#1f1e1b;--ink2:#5f5e5a;--ink3:#8b8a84;--line:#e2e0d8;
+--acc:#534ab7;--acc-bg:#eeedfe;--on-acc:#fff;--ok:#3b6d11;--ok-bg:#eaf3de;--warn:#854f0b;--warn-bg:#faeeda;
+--blue:#0c447c;--blue-bg:#e6f1fb;--err:#791f1f;--err-bg:#fcebeb;
+--sand:#efece2;--wall:#c9c5b6;
+--klus:#3b6d11;--cval:#6b3fb5;--krok:#0c6a86;--stuj:#a32020}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+--bg:#15140f;--card:#1f1e1a;--ink:#f2f0e9;--ink2:#b6b3a8;--ink3:#8b887d;--line:#35332c;
+--acc:#a79ff7;--acc-bg:#2b2748;--on-acc:#1b1830;--ok:#a8d47a;--ok-bg:#25301c;--warn:#e8b262;--warn-bg:#352913;
+--blue:#8fc6f2;--blue-bg:#152b3e;--err:#f3b0b0;--err-bg:#3a1c1c;
+--sand:#26241d;--wall:#4b483d;
+--klus:#a8d47a;--cval:#b9a6ff;--krok:#7cc6e0;--stuj:#f08a8a}}
+:root[data-theme="dark"]{
+--bg:#15140f;--card:#1f1e1a;--ink:#f2f0e9;--ink2:#b6b3a8;--ink3:#8b887d;--line:#35332c;
+--acc:#a79ff7;--acc-bg:#2b2748;--on-acc:#1b1830;--ok:#a8d47a;--ok-bg:#25301c;--warn:#e8b262;--warn-bg:#352913;
+--blue:#8fc6f2;--blue-bg:#152b3e;--err:#f3b0b0;--err-bg:#3a1c1c;
+--sand:#26241d;--wall:#4b483d;
+--klus:#a8d47a;--cval:#b9a6ff;--krok:#7cc6e0;--stuj:#f08a8a}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:400 16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:660px;margin:0 auto;padding:16px 14px 80px}
+.head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+h1{font-size:20px;font-weight:600;margin:0 0 4px}
+.sub{color:var(--ink2);font-size:13px;margin:0 0 14px}
+.tbtn{flex:0 0 auto;width:38px;height:38px;border-radius:99px;border:1px solid var(--line);
+background:var(--card);color:var(--ink2);font-size:15px;line-height:1;cursor:pointer}
+a.back{color:var(--acc);text-decoration:none;font-size:13px}
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tab{flex:1 1 0;font:500 15px/1.2 inherit;padding:12px 10px;border:1px solid var(--line);
+background:var(--card);color:var(--ink);border-radius:10px;cursor:pointer;min-height:46px}
+.tab.on{background:var(--acc);border-color:var(--acc);color:var(--on-acc)}
+.arena{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:10px;margin-bottom:12px}
+svg{display:block;width:100%;height:auto;touch-action:none}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:12px}
+.btn{font:500 15px/1.2 inherit;padding:12px 14px;border:1px solid var(--line);background:var(--card);
+color:var(--ink);border-radius:10px;cursor:pointer;min-height:46px;flex:1 1 0}
+.btn.p{background:var(--acc);border-color:var(--acc);color:var(--on-acc)}
+.btn:disabled{opacity:.4}
+.step{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+.stepno{display:flex;align-items:center;gap:8px;margin-bottom:8px;flex-wrap:wrap}
+.num{background:var(--acc);color:var(--on-acc);font-size:12px;font-weight:600;
+border-radius:99px;padding:3px 10px}
+.where{background:var(--acc-bg);color:var(--acc);font-size:12px;font-weight:600;
+letter-spacing:.06em;border-radius:99px;padding:3px 10px}
+.gait{font-size:12px;font-weight:600;border-radius:99px;padding:3px 10px;border:1px solid}
+.g-klus{color:var(--klus);border-color:var(--klus)}
+.g-cval{color:var(--cval);border-color:var(--cval)}
+.g-krok{color:var(--krok);border-color:var(--krok)}
+.g-stuj{color:var(--stuj);border-color:var(--stuj)}
+.what{font-size:17px;line-height:1.45;margin:0}
+.why{font-size:13.5px;color:var(--ink2);margin:8px 0 0}
+.salute{background:var(--err-bg);color:var(--err);border-radius:10px;padding:10px 12px;
+font-size:14px;line-height:1.5;margin-top:10px}
+.res{border-radius:12px;padding:14px;margin-bottom:12px;font-size:15px;line-height:1.55}
+.res.good{background:var(--ok-bg);color:var(--ok)}
+.res.mid{background:var(--warn-bg);color:var(--warn)}
+.res.bad{background:var(--err-bg);color:var(--err)}
+.res b{font-size:20px}
+.note{font-size:12.5px;line-height:1.55;color:var(--ink2);background:var(--warn-bg);
+border-radius:10px;padding:11px 13px;margin-bottom:14px}
+details.note summary{cursor:pointer;font-weight:600;color:var(--ink);list-style:none}
+details.note summary::-webkit-details-marker{display:none}
+details.note summary:after{content:" \25BE";color:var(--ink3)}
+details.note[open] summary:after{content:" \25B4"}
+details.note div{margin-top:8px}
+.list{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.row{display:flex;gap:10px;padding:10px 12px;border-top:1px solid var(--line);cursor:pointer;font-size:14px}
+.row:first-child{border-top:none}
+.row.on{background:var(--acc-bg)}
+.row .n{color:var(--ink3);flex:0 0 26px;font-variant-numeric:tabular-nums}
+.row .w{flex:0 0 62px;font-weight:600;color:var(--acc);font-size:12.5px;letter-spacing:.04em;padding-top:2px}
+.hint{font-size:12px;color:var(--ink3);text-align:center;margin:10px 0 0;line-height:1.55}
+.foot{font-size:12px;color:var(--ink3);text-align:center;margin:22px 0 0;line-height:1.55}
+.credit{font-size:13.5px;text-align:center;margin:26px 0 0;color:var(--ink2)}
+.credit b{color:var(--ink);font-weight:600}
+.credit a{color:var(--acc);text-decoration:none}
+.hide{display:none}
+@media(prefers-reduced-motion:reduce){.dot{transition:none}}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+<div class="head">
+<div><h1>Drezurní úloha ZZVJ-V / 2025</h1>
+<p class="sub">Obdélník 20 &times; 40 m &middot; 24 cvik&#367; &middot; <a class="back" href="index.html">zp&#283;t na karti&#269;ky</a></p></div>
+<button class="tbtn" id="theme" type="button" aria-label="Sv&#283;tl&yacute; nebo tmav&yacute; re&#382;im">&#9790;</button>
+</div>
+
+<div class="tabs">
+<button class="tab on" id="tabUk" type="button">Uk&aacute;zka</button>
+<button class="tab" id="tabDr" type="button">Nakresli trasu</button>
+</div>
+
+<details class="note">
+<summary>Pom&#367;cka, jak si &uacute;lohu pamatovat</summary>
+<div><b>P&#283;t kruh&#367;:</b> E &rarr; B (mal&yacute;, 10 m) &rarr; C &rarr; A &rarr; C.<br>
+<b>Ruce:</b> L &rarr; P &rarr; L, p&#345;ep&iacute;naj&iacute; je ob&#283; diagon&aacute;ly (F&ndash;X&ndash;H a M&ndash;X&ndash;K).<br>
+<b>Lehk&yacute; klus = cestov&aacute;n&iacute;</b> (diagon&aacute;ly a p&#345;esuny), <b>pracovn&iacute; klus = pr&aacute;ce</b> (kruhy a p&#345;esnost).<br>
+<b>Dv&#283; zastaven&iacute;:</b> X na za&#269;&aacute;tku, G na konci, ob&#283; s pozdravem.<br>
+<b>Nejt&#283;s&#328;j&iacute; m&iacute;sto:</b> po cvalov&eacute;m kruhu na C p&#345;ejde&scaron; do lehk&eacute;ho klusu a hned jsi na M, kde za&#269;&iacute;n&aacute; diagon&aacute;la M&ndash;X&ndash;K.</div>
+</details>
+
+<div class="arena"><svg id="ar" viewBox="-4 -4 28 48" aria-label="Drezurn&iacute; obd&eacute;ln&iacute;k"></svg></div>
+
+<div id="modeUk">
+  <div class="bar">
+  <button class="btn" id="prev" type="button">&larr; Zp&#283;t</button>
+  <button class="btn p" id="play" type="button">P&#345;ehr&aacute;t</button>
+  <button class="btn" id="next" type="button">Dal&scaron;&iacute; &rarr;</button>
+  </div>
+  <div class="step" id="step"></div>
+  <div class="list" id="list"></div>
+</div>
+
+<div id="modeDr" class="hide">
+  <div id="drres"></div>
+  <div class="bar">
+  <button class="btn" id="clr" type="button">Vymazat</button>
+  <button class="btn p" id="chk" type="button">Vyhodnotit</button>
+  <button class="btn" id="show" type="button">Uk&aacute;zat spr&aacute;vn&#283;</button>
+  </div>
+  <p class="hint">Ta&#382;en&iacute;m prstu (nebo my&scaron;&iacute;) projed' trasu od A a&#382; do konce. Kreslit m&#367;&#382;e&scaron; i na v&iacute;ckr&aacute;t, tahy se navazuj&iacute;.</p>
+</div>
+
+<p class="credit">P&#345;ipravila <b>Barbora &#344;ez&aacute;&#269;ov&aacute;</b> &middot; <a href="https://www.instagram.com/rattierebecca/" target="_blank" rel="noopener">@rattierebecca</a></p>
+<p class="foot">Trasa i texty cvik&#367; jsou z ofici&aacute;ln&iacute; &uacute;lohy &Ccaron;JF <b>ZZVJ-V / 2025</b>, platn&eacute; od 1. 4. 2025. Neofici&aacute;ln&iacute; studijn&iacute; pom&#367;cka.</p>
+</div>
+
+<script>
+var $=function(i){return document.getElementById(i)};
+var NS='http://www.w3.org/2000/svg';
+var W=20,L=40;
+var P={A:[10,0],K:[0,6],E:[0,20],H:[0,34],C:[10,40],M:[20,34],B:[20,20],F:[20,6],
+       D:[10,6],X:[10,20],G:[10,34]};
+var R=5; /* polomer rohu */
+function d2r(d){return d*Math.PI/180}
+function dist(a,b){var x=a[0]-b[0],y=a[1]-b[1];return Math.sqrt(x*x+y*y)}
+function line(a,b){var n=Math.max(2,Math.round(dist(a,b)*1.5)),o=[],i;
+  for(i=0;i<=n;i++)o.push([a[0]+(b[0]-a[0])*i/n,a[1]+(b[1]-a[1])*i/n]);return o}
+function arc(cx,cy,r,a0,a1){var n=Math.max(8,Math.round(Math.abs(a1-a0)/6)),o=[],i,t;
+  for(i=0;i<=n;i++){t=d2r(a0+(a1-a0)*i/n);o.push([cx+r*Math.cos(t),cy+r*Math.sin(t)])}return o}
+function join(){var o=[],i,j;
+  for(i=0;i<arguments.length;i++){var a=arguments[i];
+    for(j=0;j<a.length;j++){if(o.length&&dist(o[o.length-1],a[j])<0.01)continue;o.push(a[j])}}
+  return o}
+/* vlnovka o trech obloucich A -> C */
+function serp(){var o=[],i,y,x;
+  for(i=0;i<=90;i++){y=L*i/90;x=10-10*Math.sin(3*Math.PI*y/L);o.push([x,y])}return o}
+/* od steny ke stene 5 m: H -> K po leve dlouhe stene */
+function loop5(){var o=[],i,t,y,x;
+  for(i=0;i<=40;i++){t=i/40;y=34+(6-34)*t;x=5*Math.sin(Math.PI*t);o.push([x,y])}return o}
+
+/* rohy: ctvrtkruhy o polomeru 5 */
+var cLD=[R,R],cPD=[W-R,R],cLH=[R,L-R],cPH=[W-R,L-R]; /* levy dolni, pravy dolni, levy horni, pravy horni */
+
+var SEG=[
+{n:'1',w:'A &rarr; X',g:'klus',t:'Vjezd pracovn&iacute;m klusem',y:'Kvalita klusu. Rovnost.',
+ p:line(P.A,P.X)},
+{n:'1',w:'X',g:'stuj',t:'St&aacute;t &ndash; nehybnost &ndash; pozdrav',y:'P&#345;echody. St&aacute;n&iacute;.',halt:1,
+ p:[P.X,P.X]},
+{n:'1',w:'X &rarr; C',g:'klus',t:'Pracovn&iacute;m klusem vchod',y:'Pravidelnost.',
+ p:line(P.X,P.C)},
+{n:'2',w:'C',g:'klus',t:'Na levou ruku',y:'Postaven&iacute; a ohnut&iacute;.',
+ p:join(line(P.C,[R,L]),arc(cLH[0],cLH[1],R,90,180),line([0,L-R],P.E))},
+{n:'3',w:'E B E',g:'klus',t:'Velk&yacute; kruh 1&times; kolem (20 m)',y:'Postaven&iacute; a ohnut&iacute;. Pravidelnost.',
+ p:arc(10,20,10,180,540)},
+{n:'4',w:'A',g:'lehky',t:'Lehk&yacute; klus',y:'Vysed&aacute;n&iacute;.',
+ p:join(line(P.E,[0,R]),arc(cLD[0],cLD[1],R,180,270),line([R,0],P.A),
+        line(P.A,[W-R,0]),arc(cPD[0],cPD[1],R,270,360),line([W,R],P.F))},
+{n:'5',w:'F X H',g:'lehky',t:'Diagon&aacute;lou zm&#283;nit sm&#283;r, v X p&#345;esednout',y:'Pravidelnost. P&#345;esednut&iacute;.',
+ p:join(line(P.F,P.X),line(P.X,P.H))},
+{n:'6',w:'C',g:'klus',t:'Pracovn&iacute; klus',y:'Pravidelnost.',
+ p:join(line(P.H,[0,L-R]),arc(cLH[0],cLH[1],R,180,90),line([R,L],P.C))},
+{n:'7',w:'B X B',g:'klus',t:'Mal&yacute; kruh, pr&#367;m&#283;r 10 m',y:'Postaven&iacute; a ohnut&iacute;. Pravidelnost.',
+ p:join(line(P.C,[W-R,L]),arc(cPH[0],cPH[1],R,90,0),line([W,L-R],P.M),line(P.M,P.B),
+        arc(15,20,5,0,-360))},
+{n:'8',w:'B',g:'krok',t:'P&#345;echod do kroku',y:'P&#345;esnost, pravidelnost.',
+ p:join(line(P.B,P.F),line(P.F,[W,R]),arc(cPD[0],cPD[1],R,360,270),line([W-R,0],P.A))},
+{n:'9',w:'A',g:'klus',t:'Pracovn&iacute; klus',y:'Plynulost.',
+ p:[P.A,P.A]},
+{n:'10',w:'A &rarr; C',g:'klus',t:'Vlnovka o t&#345;ech oblouc&#237;ch',y:'Postaven&iacute; a ohnut&iacute;. P&#345;esnost, rovnov&aacute;ha.',
+ p:serp()},
+{n:'11',w:'C X C',g:'cval',t:'Pracovn&iacute; cval, velk&yacute; kruh 1&times; kolem',y:'P&#345;echod, pravidelnost. Ohnut&iacute;.',
+ p:arc(10,30,10,90,-270)},
+{n:'12',w:'C',g:'lehky',t:'Lehk&yacute; klus',y:'P&#345;echod, vysed&aacute;n&iacute;.',
+ p:join(line(P.C,[W-R,L]),arc(cPH[0],cPH[1],R,90,0),line([W,L-R],P.M))},
+{n:'13',w:'M X K',g:'lehky',t:'Diagon&aacute;lou zm&#283;nit sm&#283;r, v X p&#345;echod do pracovn&iacute;ho klusu',y:'Rovnost, p&#345;esnost.',
+ p:join(line(P.M,P.X),line(P.X,P.K))},
+{n:'14',w:'K &rarr; A',g:'cval',t:'Pracovn&iacute; cval (mezi K a A)',y:'P&#345;echod. Kvalita cvalu.',
+ p:join(line(P.K,[0,R]),arc(cLD[0],cLD[1],R,180,270),line([R,0],P.A))},
+{n:'15',w:'A X A',g:'cval',t:'Velk&yacute; kruh 1&times; kolem',y:'Kvalita cvalu.',
+ p:arc(10,10,10,270,630)},
+{n:'16',w:'A',g:'cval',t:'P&#345;&iacute;mo',y:'Pravidelnost.',
+ p:join(line(P.A,[W-R,0]),arc(cPD[0],cPD[1],R,270,360),line([W,R],P.F))},
+{n:'17',w:'F &rarr; M',g:'cval',t:'Cvalov&eacute; kroky prodlou&#382;it',y:'Prodlou&#382;en&iacute; skok&#367; a r&aacute;mce.',
+ p:line(P.F,P.M)},
+{n:'18',w:'M',g:'cval',t:'Cvalov&eacute; kroky zkr&aacute;tit',y:'Pravidelnost a p&#345;echod.',
+ p:join(line(P.M,[W,L-R]),arc(cPH[0],cPH[1],R,0,90),line([W-R,L],P.C))},
+{n:'19',w:'C',g:'lehky',t:'Lehk&yacute; klus a velk&yacute; kruh',y:'P&#345;echod, vysed&aacute;n&iacute;.',
+ p:arc(10,30,10,90,270)},
+{n:'20',w:'X',g:'klus',t:'Pracovn&iacute; klus',y:'P&#345;echod.',
+ p:arc(10,30,10,270,450)},
+{n:'21',w:'C &rarr; H',g:'klus',t:'Pracovn&iacute; klus',y:'Pravidelnost.',
+ p:join(line(P.C,[R,L]),arc(cLH[0],cLH[1],R,90,180),line([0,L-R],P.H))},
+{n:'22',w:'H K',g:'klus',t:'Od st&#283;ny ke st&#283;n&#283; 5 m',y:'Pravidelnost, ohnut&iacute;.',
+ p:loop5()},
+{n:'23',w:'A',g:'klus',t:'Ze st&#345;edu',y:'Rovnost.',
+ p:join(line(P.K,[0,R]),arc(cLD[0],cLD[1],R,180,270),line([R,0],P.A),line(P.A,P.G))},
+{n:'24',w:'G',g:'stuj',t:'St&aacute;t &ndash; nehybnost &ndash; pozdrav',y:'P&#345;esnost. Pak opustit obd&eacute;ln&iacute;k v A krokem na dlouh&eacute; ot&#283;&#382;i.',halt:1,
+ p:[P.G,P.G]}
+];
+
+var GAIT={klus:['Pracovn&iacute; klus','g-klus'],lehky:['Lehk&yacute; klus','g-klus'],
+          cval:['Cval','g-cval'],krok:['Krok','g-krok'],stuj:['St&#367;j','g-stuj']};
+
+/* ---------- kresleni obdelniku ---------- */
+function sx(p){return p[0]}
+function sy(p){return L-p[1]}
+function el(name,attrs){var e=document.createElementNS(NS,name),k;
+  for(k in attrs)e.setAttribute(k,attrs[k]);return e}
+function poly(pts){var s='',i;for(i=0;i<pts.length;i++)s+=(i?' ':'')+sx(pts[i]).toFixed(2)+','+sy(pts[i]).toFixed(2);return s}
+
+var svg=$('ar'),gRef,gUser,dot;
+function drawArena(){
+  svg.innerHTML='';
+  svg.appendChild(el('rect',{x:0,y:0,width:W,height:L,rx:.4,fill:'var(--sand)',
+    stroke:'var(--wall)','stroke-width':.35}));
+  /* stredova osa jen jako voditko */
+  svg.appendChild(el('line',{x1:10,y1:0,x2:10,y2:L,stroke:'var(--wall)','stroke-width':.12,
+    'stroke-dasharray':'1 1.4',opacity:.7}));
+  var k,names=['A','K','E','H','C','M','B','F'];
+  for(k=0;k<names.length;k++){
+    var p=P[names[k]],x=sx(p),y=sy(p),dx=0,dy=0;
+    if(p[0]===0)dx=-2.1; else if(p[0]===W)dx=2.1;
+    if(p[1]===0)dy=2.6; else if(p[1]===L)dy=-1.6;
+    var t=el('text',{x:x+dx,y:y+dy+.6,'text-anchor':'middle','font-size':2.4,
+      'font-weight':700,fill:'var(--ink2)'});
+    t.textContent=names[k];svg.appendChild(t);
+  }
+  var inner=['D','X','G'];
+  for(k=0;k<inner.length;k++){
+    var q=P[inner[k]];
+    svg.appendChild(el('circle',{cx:sx(q),cy:sy(q),r:.35,fill:'var(--wall)'}));
+    var it=el('text',{x:sx(q)+1.6,y:sy(q)+.7,'font-size':1.9,fill:'var(--ink3)'});
+    it.textContent=inner[k];svg.appendChild(it);
+  }
+  gRef=el('g',{});svg.appendChild(gRef);
+  gUser=el('g',{});svg.appendChild(gUser);
+}
+
+function refColor(g){return g==='cval'?'var(--cval)':(g==='krok'?'var(--krok)':
+  (g==='stuj'?'var(--stuj)':'var(--klus)'))}
+
+function drawRef(activeIdx,faint){
+  gRef.innerHTML='';
+  var i;
+  for(i=0;i<SEG.length;i++){
+    var s=SEG[i];
+    if(s.p.length<2)continue;
+    if(s.halt){
+      gRef.appendChild(el('circle',{cx:sx(s.p[0]),cy:sy(s.p[0]),r:.9,fill:'none',
+        stroke:refColor('stuj'),'stroke-width':.4,
+        opacity:(activeIdx==null||activeIdx===i)?1:.25}));
+      continue;
+    }
+    var on=(activeIdx==null)||(activeIdx===i);
+    gRef.appendChild(el('polyline',{points:poly(s.p),fill:'none',
+      stroke:on?refColor(s.g):'var(--wall)',
+      'stroke-width':on?.75:.4,'stroke-linecap':'round','stroke-linejoin':'round',
+      opacity:faint?.35:(on?1:.35)}));
+  }
+}
+
+/* ---------- rezim ukazka ---------- */
+var idx=0,timer=null;
+function fillStep(){
+  var s=SEG[idx],g=GAIT[s.g];
+  var h='<div class="stepno"><span class="num">'+s.n+'</span>'+
+    '<span class="where">'+s.w+'</span>'+
+    '<span class="gait '+g[1]+'">'+g[0]+'</span></div>'+
+    '<p class="what">'+s.t+'</p>'+
+    '<p class="why">'+s.y+'</p>';
+  if(s.halt)h+='<div class="salute"><b>Pozdrav:</b> ot&#283;&#382;e do lev&eacute; ruky, prav&aacute; klesne pod&eacute;l t&#283;la, sklon&iacute;&scaron; hlavu. K&#367;&#328; mus&iacute; st&aacute;t nehybn&#283;.</div>';
+  $('step').innerHTML=h;
+  var rows=$('list').getElementsByClassName('row'),i;
+  for(i=0;i<rows.length;i++)rows[i].className='row'+(i===idx?' on':'');
+  drawRef(idx,false);
+  animate(s);
+}
+function animate(s){
+  if(dot&&dot.parentNode)dot.parentNode.removeChild(dot);
+  dot=el('circle',{r:.85,fill:'var(--acc)',stroke:'var(--card)','stroke-width':.25});
+  gRef.appendChild(dot);
+  var pts=s.p,i=0,step=Math.max(1,Math.round(pts.length/60));
+  if(timer)clearInterval(timer);
+  dot.setAttribute('cx',sx(pts[0]));dot.setAttribute('cy',sy(pts[0]));
+  if(pts.length<3)return;
+  timer=setInterval(function(){
+    i+=step;
+    if(i>=pts.length){clearInterval(timer);timer=null;i=pts.length-1}
+    dot.setAttribute('cx',sx(pts[i]));dot.setAttribute('cy',sy(pts[i]));
+  },40);
+}
+function buildList(){
+  var h='',i;
+  for(i=0;i<SEG.length;i++)
+    h+='<div class="row"><span class="n">'+SEG[i].n+'</span><span class="w">'+SEG[i].w+
+       '</span><span>'+SEG[i].t+'</span></div>';
+  $('list').innerHTML=h;
+  var rows=$('list').getElementsByClassName('row');
+  for(i=0;i<rows.length;i++)(function(i){rows[i].onclick=function(){idx=i;fillStep()}})(i);
+}
+$('prev').onclick=function(){idx=(idx-1+SEG.length)%SEG.length;fillStep()};
+$('next').onclick=function(){idx=(idx+1)%SEG.length;fillStep()};
+$('play').onclick=function(){
+  if(timer){clearInterval(timer);timer=null;$('play').textContent='Přehrát';return}
+  $('play').textContent='Zastavit';
+  var run=function(){
+    animate(SEG[idx]);
+    setTimeout(function(){
+      if($('play').textContent==='Zastavit'){
+        if(idx<SEG.length-1){idx++;fillStep();setTimeout(run,300)}
+        else $('play').textContent='Přehrát';
+      }
+    }, Math.max(900,SEG[idx].p.length*22));
+  };
+  run();
+};
+
+/* ---------- rezim kresleni ---------- */
+var REF=[],SEGRANGE=[];
+(function(){var i,j;
+  for(i=0;i<SEG.length;i++){
+    var a=REF.length;
+    if(!SEG[i].halt)for(j=0;j<SEG[i].p.length;j++)REF.push(SEG[i].p[j]);
+    SEGRANGE.push([a,REF.length]);
+  }
+})();
+var strokes=[],cur=null,drawing=false;
+function toArena(ev){
+  var r=svg.getBoundingClientRect();
+  var t=(ev.touches&&ev.touches[0])||ev;
+  var vx=-4+((t.clientX-r.left)/r.width)*28;
+  var vy=-4+((t.clientY-r.top)/r.height)*48;
+  return [vx,L-vy];
+}
+function redrawUser(){
+  gUser.innerHTML='';
+  var i;
+  for(i=0;i<strokes.length;i++){
+    if(strokes[i].length<2)continue;
+    gUser.appendChild(el('polyline',{points:poly(strokes[i]),fill:'none',stroke:'var(--acc)',
+      'stroke-width':.7,'stroke-linecap':'round','stroke-linejoin':'round',opacity:.9}));
+  }
+}
+function start(ev){if(!drawMode)return;ev.preventDefault();drawing=true;cur=[toArena(ev)];strokes.push(cur)}
+function move(ev){if(!drawing)return;ev.preventDefault();
+  var p=toArena(ev);
+  if(!cur.length||dist(cur[cur.length-1],p)>0.35){cur.push(p);redrawUser()}}
+function end(){drawing=false}
+svg.addEventListener('mousedown',start);svg.addEventListener('mousemove',move);
+window.addEventListener('mouseup',end);
+svg.addEventListener('touchstart',start,{passive:false});
+svg.addEventListener('touchmove',move,{passive:false});
+svg.addEventListener('touchend',end);
+
+function dSeg(p,a,b){
+  var vx=b[0]-a[0],vy=b[1]-a[1],wx=p[0]-a[0],wy=p[1]-a[1];
+  var c1=vx*wx+vy*wy;if(c1<=0)return dist(p,a);
+  var c2=vx*vx+vy*vy;if(c2<=c1)return dist(p,b);
+  var t=c1/c2;return dist(p,[a[0]+t*vx,a[1]+t*vy]);
+}
+function dToStrokes(p){
+  var m=1e9,i,j;
+  for(i=0;i<strokes.length;i++)for(j=1;j<strokes[i].length;j++){
+    var d=dSeg(p,strokes[i][j-1],strokes[i][j]);if(d<m)m=d}
+  return m;
+}
+function dToRef(p){var m=1e9,j;for(j=1;j<REF.length;j++){var d=dSeg(p,REF[j-1],REF[j]);if(d<m)m=d}return m}
+var TOL=2.2;
+$('chk').onclick=function(){
+  var pts=0,i;for(i=0;i<strokes.length;i++)pts+=strokes[i].length;
+  if(pts<20){$('drres').innerHTML='<div class="res mid">Zat&iacute;m tam skoro nic nen&iacute;. Projed\' trasu prstem od A sm&#283;rem k C.</div>';return}
+  var hit=0,tot=0,bad=[];
+  for(i=0;i<SEG.length;i++){
+    var r=SEGRANGE[i],h=0,n=0,j;
+    for(j=r[0];j<r[1];j+=2){n++;tot++;if(dToStrokes(REF[j])<=TOL){h++;hit++}}
+    if(n>6&&h/n<0.6)bad.push(SEG[i].n+' ('+SEG[i].w+')');
+  }
+  var cover=tot?hit/tot:0;
+  var stray=0,sn=0;
+  for(i=0;i<strokes.length;i++)for(var j2=0;j2<strokes[i].length;j2+=2){sn++;if(dToRef(strokes[i][j2])>TOL)stray++}
+  var sr=sn?stray/sn:0;
+  var score=Math.round(100*cover*(1-0.6*sr));
+  if(score<0)score=0;
+  var cls=score>=80?'good':(score>=55?'mid':'bad');
+  var msg=score>=80?'Sed&iacute;. Trasu m&aacute;&scaron; v hlav&#283;.':
+          (score>=55?'Z&aacute;klad sed&iacute;, ale n&#283;kde to ut&iacute;k&aacute;.':'Tady je&scaron;t&#283; pozor, v&#283;t&scaron;ina trasy chyb&iacute; nebo vede jinudy.');
+  var uniq=[],seen={};
+  for(i=0;i<bad.length;i++)if(!seen[bad[i]]){seen[bad[i]]=1;uniq.push(bad[i])}
+  var h2='<div class="res '+cls+'"><b>'+score+' %</b> &nbsp;'+msg+'<br>'+
+    'Trefen&aacute; trasa: '+Math.round(cover*100)+' % &middot; mimo trasu: '+Math.round(sr*100)+' % tv&eacute;ho tahu.';
+  if(uniq.length)h2+='<br>Dodrbat: cviky '+uniq.slice(0,8).join(', ')+'.';
+  h2+='</div>';
+  $('drres').innerHTML=h2;
+};
+$('clr').onclick=function(){strokes=[];redrawUser();$('drres').innerHTML='';drawRef(null,true)};
+$('show').onclick=function(){drawRef(null,false)};
+
+/* ---------- prepinani rezimu ---------- */
+var drawMode=false;
+function setMode(dr){
+  drawMode=dr;
+  $('tabUk').className='tab'+(dr?'':' on');
+  $('tabDr').className='tab'+(dr?' on':'');
+  $('modeUk').className=dr?'hide':'';
+  $('modeDr').className=dr?'':'hide';
+  if(timer){clearInterval(timer);timer=null;$('play').textContent='Přehrát'}
+  if(dot&&dot.parentNode)dot.parentNode.removeChild(dot);
+  if(dr){drawRef(null,true);redrawUser()}
+  else{gUser.innerHTML='';fillStep()}
+}
+$('tabUk').onclick=function(){setMode(false)};
+$('tabDr').onclick=function(){setMode(true)};
+
+/* ---------- tema ---------- */
+var TKEY='zzvj-tema';
+function eff(){var a=document.documentElement.getAttribute('data-theme');
+  if(a)return a;
+  return (window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light'}
+function paintIcon(){$('theme').innerHTML=eff()==='dark'?'☀':'☾'}
+$('theme').onclick=function(){
+  var next=eff()==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',next);
+  try{localStorage.setItem(TKEY,next)}catch(e){}
+  paintIcon();
+};
+paintIcon();
+drawArena();buildList();fillStep();
+</script>
+
+</body>
+</html>
