@@ -24,6 +24,12 @@ details.note summary:after{content:" \25BE";color:var(--ink3)}
 details.note[open] summary:after{content:" \25B4"}
 details.note div{margin-top:8px}
 .panel{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:12px}
+.panel>summary{cursor:pointer;list-style:none;display:flex;align-items:center;gap:8px}
+.panel>summary::-webkit-details-marker{display:none}
+.panel>summary:after{content:"\25BE";color:var(--ink3);font-size:10px}
+.panel[open]>summary:after{content:"\25B4"}
+.panel[open]>summary{margin-bottom:10px}
+.panel>summary .n2{font-weight:400;letter-spacing:0;text-transform:none;color:var(--ink2);font-size:12px}
 .lbl{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);margin:0 0 8px;font-weight:600}
 .chips{display:flex;flex-wrap:wrap;gap:6px}
 .chip{font:400 13px/1.3 inherit;padding:9px 12px;border:1px solid var(--line);background:#fff;
@@ -39,8 +45,8 @@ color:var(--ink);border-radius:10px;cursor:pointer;min-height:46px;flex:1 1 auto
 .prog i{display:block;height:100%;background:var(--acc);width:0;transition:width .2s}
 .count{font-size:13px;color:var(--ink2);font-variant-numeric:tabular-nums;flex:0 0 auto}
 .scene{perspective:1600px;margin-bottom:12px}
-.card{position:relative;width:100%;min-height:220px;cursor:pointer;
-transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+.card{position:relative;width:100%;min-height:120px;cursor:pointer;
+transform-style:preserve-3d;transition:transform .5s cubic-bezier(.2,.7,.3,1),height .35s ease}
 .card.flip{transform:rotateY(180deg)}
 .face{position:absolute;top:0;left:0;right:0;
 backface-visibility:hidden;-webkit-backface-visibility:hidden;
@@ -87,10 +93,10 @@ Otev&#345;i soubor v <b>prohl&iacute;&#382;e&#269;i</b> (Chrome nebo Safari), ne
 Kde si &Ccaron;JF a Equos proti&#345;e&#269;&iacute;, plat&iacute; &Ccaron;JF a rozd&iacute;l je v modr&eacute;m r&aacute;me&#269;ku pod odpov&#283;d&iacute;.</div>
 </details>
 
-<div class="panel">
-<p class="lbl">Okruhy</p>
+<details class="panel" id="catbox">
+<summary class="lbl">Okruhy <span class="n2" id="catsum"></span></summary>
 <div class="chips" id="cats"></div>
-</div>
+</details>
 
 <div class="bar">
 <button class="btn p" id="shuffle">Zam&iacute;chat</button>
@@ -160,6 +166,8 @@ function build(){
     b.onclick=function(){sel[i]=!sel[i];save();build();rebuild()};
     c.appendChild(b);
   })(i)}
+  var s=selCount();
+  $('catsum').textContent=s===CATS.length?'v\u0161echny':(s===0?'\u017e\u00e1dn\u00fd':('vybr\u00e1no '+s+' z '+CATS.length));
 }
 function pool(){
   var p=[];
@@ -172,14 +180,18 @@ function pool(){
 }
 /* vyska karty = vyssi z obou stran, aby se dlouha odpoved neorizla */
 function fit(){
-  var f=$('front').offsetHeight,b=$('back').offsetHeight;
-  $('card').style.height=Math.max(f,b,220)+'px';
+  var el=flipped?$('back'):$('front');
+  $('card').style.height=Math.max(el.offsetHeight,120)+'px';
+}
+function ensureVisible(){
+  var r=$('card').getBoundingClientRect();
+  if(r.top<0)window.scrollTo(0,(window.pageYOffset||0)+r.top-12);
 }
 var BASE='card';
 (function(){var s=document.createElement('div').style;
 if(!('backfaceVisibility' in s)&&!('webkitBackfaceVisibility' in s)&&!('MozBackfaceVisibility' in s))BASE='card no3d';})();
 function unflip(){flipped=false;$('card').className=BASE}
-function flip(){flipped=!flipped;$('card').className=BASE+(flipped?' flip':'')}
+function flip(){flipped=!flipped;$('card').className=BASE+(flipped?' flip':'');fit()}
 function rebuild(){order=pool();if(idx>=order.length)idx=0;render()}
 function shuffle(){
   order=pool();
@@ -207,7 +219,7 @@ function render(){
   fit();
   setTimeout(fit,60);
 }
-function go(step){if(!order.length)return;idx=(idx+step+order.length)%order.length;render();window.scrollTo(0,0)}
+function go(step){if(!order.length)return;idx=(idx+step+order.length)%order.length;render();ensureVisible()}
 function grade(v){if(!order.length)return;know[order[idx]]=v;save();go(1)}
 
 $('card').onclick=function(){if(order.length)flip()};
