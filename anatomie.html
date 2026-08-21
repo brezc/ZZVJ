@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#f6f5f1">
+<title>ZZVJ anatomie koně</title>
+<script>(function(){try{var t=localStorage.getItem('zzvj-tema');if(t)document.documentElement.setAttribute('data-theme',t)}catch(e){}})();</script>
+<style>
+:root{--bg:#f6f5f1;--card:#fff;--ink:#1f1e1b;--ink2:#5f5e5a;--ink3:#8b8a84;--line:#e2e0d8;
+--acc:#534ab7;--acc-bg:#eeedfe;--on-acc:#fff;--ok:#3b6d11;--ok-bg:#eaf3de;--warn:#854f0b;--warn-bg:#faeeda;
+--err:#791f1f;--err-bg:#fcebeb;--horse:#d9d4c6;--horse2:#c4bda9;--horseink:#8b8471}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
+--bg:#15140f;--card:#1f1e1a;--ink:#f2f0e9;--ink2:#b6b3a8;--ink3:#8b887d;--line:#35332c;
+--acc:#a79ff7;--acc-bg:#2b2748;--on-acc:#1b1830;--ok:#a8d47a;--ok-bg:#25301c;--warn:#e8b262;--warn-bg:#352913;
+--err:#f3b0b0;--err-bg:#3a1c1c;--horse:#3c3830;--horse2:#4a463c;--horseink:#7d7768}}
+:root[data-theme="dark"]{
+--bg:#15140f;--card:#1f1e1a;--ink:#f2f0e9;--ink2:#b6b3a8;--ink3:#8b887d;--line:#35332c;
+--acc:#a79ff7;--acc-bg:#2b2748;--on-acc:#1b1830;--ok:#a8d47a;--ok-bg:#25301c;--warn:#e8b262;--warn-bg:#352913;
+--err:#f3b0b0;--err-bg:#3a1c1c;--horse:#3c3830;--horse2:#4a463c;--horseink:#7d7768}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);
+font:400 16px/1.6 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+.wrap{max-width:660px;margin:0 auto;padding:16px 14px 80px}
+.head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+h1{font-size:20px;font-weight:600;margin:0 0 4px}
+.sub{color:var(--ink2);font-size:13px;margin:0 0 12px}
+.tbtn{flex:0 0 auto;width:38px;height:38px;border-radius:99px;border:1px solid var(--line);
+background:var(--card);color:var(--ink2);font-size:15px;line-height:1;cursor:pointer}
+.nav{display:flex;gap:3px;background:var(--card);border:1px solid var(--line);
+border-radius:10px;padding:3px;margin-bottom:14px}
+.nav a,.nav span{flex:1 1 0;display:flex;align-items:center;justify-content:center;
+font:600 12.5px/1.2 inherit;padding:8px 4px;border-radius:7px;text-decoration:none;color:var(--ink2)}
+.nav .on{background:var(--acc);color:var(--on-acc)}
+.tabs{display:flex;gap:8px;margin-bottom:14px}
+.tab{flex:1 1 0;font:500 15px/1.2 inherit;padding:12px 10px;border:1px solid var(--line);
+background:var(--card);color:var(--ink);border-radius:10px;cursor:pointer;min-height:46px}
+.tab.on{background:var(--acc);border-color:var(--acc);color:var(--on-acc)}
+.pic{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:8px;margin-bottom:12px}
+svg{display:block;width:100%;height:auto;touch-action:manipulation}
+.ask{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:14px;margin-bottom:12px}
+.ask .q{font-size:18px;font-weight:600;margin:0}
+.ask .s{font-size:13px;color:var(--ink2);margin:6px 0 0}
+.res{border-radius:10px;padding:10px 12px;margin-top:10px;font-size:14.5px;line-height:1.5}
+.res.ok{background:var(--ok-bg);color:var(--ok)}
+.res.no{background:var(--err-bg);color:var(--err)}
+.bar{display:flex;gap:8px;margin-bottom:12px}
+.btn{font:500 15px/1.2 inherit;padding:12px 14px;border:1px solid var(--line);background:var(--card);
+color:var(--ink);border-radius:10px;cursor:pointer;min-height:46px;flex:1 1 0}
+.btn.p{background:var(--acc);border-color:var(--acc);color:var(--on-acc)}
+.grp{background:var(--card);border:1px solid var(--line);border-radius:12px;overflow:hidden;margin-bottom:12px}
+.grp h2{font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink3);
+margin:0;padding:10px 13px 6px;font-weight:600}
+.terms{display:flex;flex-wrap:wrap;gap:6px;padding:0 13px 12px}
+.term{font:400 13.5px/1.3 inherit;padding:7px 11px;border:1px solid var(--line);background:var(--card);
+color:var(--ink2);border-radius:99px;cursor:pointer}
+.term.on{background:var(--acc);border-color:var(--acc);color:var(--on-acc)}
+.hint{font-size:12px;color:var(--ink3);text-align:center;margin:10px 0 0;line-height:1.55}
+.credit{font-size:13.5px;text-align:center;margin:26px 0 0;color:var(--ink2)}
+.credit b{color:var(--ink);font-weight:600}
+.credit a{color:var(--acc);text-decoration:none}
+.foot{font-size:12px;color:var(--ink3);text-align:center;margin:16px 0 0;line-height:1.55}
+.hide{display:none}
+</style>
+</head>
+<body>
+
+
+<div class="wrap">
+<div class="head">
+<div><h1>Anatomie: krajiny t&#283;la kon&#283;</h1>
+<p class="sub">26 m&iacute;st &middot; &#357;ukni na bod nebo si nech ukazovat</p></div>
+<button class="tbtn" id="theme" type="button" aria-label="Sv&#283;tl&yacute; nebo tmav&yacute; re&#382;im">&#9790;</button>
+</div>
+
+<div class="nav"><a href="index.html">Karti&#269;ky</a><a href="drezura.html">Drezura</a><a href="parkur.html">Parkur</a><span class="on">Anatomie</span></div>
+
+<div class="tabs">
+<button class="tab on" id="tabU" type="button">U&#269;en&iacute;</button>
+<button class="tab" id="tabZ" type="button">Zkou&scaron;en&iacute;</button>
+</div>
+
+<div id="askbox" class="ask hide">
+<p class="q" id="q"></p>
+<p class="s" id="score">Spr&aacute;vn&#283; 0 z 0</p>
+<div id="fb"></div>
+</div>
+
+<div class="pic"><svg id="sv" viewBox="0 0 400 310" aria-label="Sch&eacute;ma kon&#283; s krajinami t&#283;la"></svg></div>
+
+<div class="bar" id="barU">
+<button class="btn" id="allon" type="button">Uk&aacute;zat v&scaron;echny popisky</button>
+<button class="btn" id="alloff" type="button">Skr&yacute;t popisky</button>
+</div>
+<div class="bar hide" id="barZ">
+<button class="btn p" id="next" type="button">Dal&scaron;&iacute; ot&aacute;zka</button>
+<button class="btn" id="reset" type="button">Za&#269;&iacute;t znovu</button>
+</div>
+
+<div id="groups"></div>
+
+<p class="hint">Ve zkou&scaron;en&iacute; &#357;ukni p&#345;&iacute;mo do obr&aacute;zku na m&iacute;sto, kter&eacute; se pt&aacute;.</p>
+
+<p class="credit">P&#345;ipravila <b>Barbora &#344;ez&aacute;&#269;ov&aacute;</b> &middot; <a href="https://www.instagram.com/rattierebecca/" target="_blank" rel="noopener">@rattierebecca</a></p>
+<p class="foot">Sch&eacute;ma je vlastn&iacute; kresba, n&aacute;zvoslov&iacute; podle &Ccaron;JF. Neofici&aacute;ln&iacute; studijn&iacute; pom&#367;cka.</p>
+</div>
+
+<script>
+var $=function(i){return document.getElementById(i)};
+var NS='http://www.w3.org/2000/svg';
+
+/* krajiny tela: [nazev, x, y, skupina, popisek vlevo/vpravo] */
+var T=[
+['nozdry',46,104,0,'l'],
+['ganaše',101,92,0,'l'],
+['ucho',95,50,0,'l'],
+['hříva',132,72,0,'u'],
+['krk',124,96,0,'l'],
+
+['kohoutek',172,92,1,'u'],
+['hřbet',218,90,1,'u'],
+['bedra',262,92,1,'u'],
+['záď (kříž)',294,100,1,'u'],
+['ocas',322,150,1,'r'],
+['lopatka (plec)',158,124,1,'l'],
+['podhrudí',146,152,1,'l'],
+['břicho',214,180,1,'d'],
+['slabina',252,166,1,'d'],
+
+['loket',156,164,2,'l'],
+['předloktí',153,192,2,'l'],
+['kaštánek',166,204,2,'r'],
+['zápěstí (přední koleno)',151,216,2,'l'],
+['nadprstí (holeň)',150,240,2,'l'],
+['spěnkový kloub',149,258,2,'l'],
+['spěnka',148,270,2,'l'],
+['korunka',147,280,2,'l'],
+['kopyto',146,291,2,'l'],
+
+['stehno',286,158,3,'r'],
+['koleno',280,186,3,'r'],
+['hlezno',290,228,3,'r']
+];
+var G=['Hlava a krk','Trup','Přední končetina','Zadní končetina'];
+
+function el(n,a){var e=document.createElementNS(NS,n),k;for(k in a)e.setAttribute(k,a[k]);return e}
+var svg=$('sv'),gDots,gLab;
+
+function drawHorse(){
+  svg.innerHTML='';
+  var g=el('g',{});
+  /* nohy jako silne cary, vzdalene svetlejsi */
+  function leg(pts,col,w){
+    var s='',i;for(i=0;i<pts.length;i++)s+=(i?' ':'')+pts[i][0]+','+pts[i][1];
+    g.appendChild(el('polyline',{points:s,fill:'none',stroke:col,'stroke-width':w,
+      'stroke-linecap':'round','stroke-linejoin':'round'}));
+  }
+  leg([[170,150],[172,214],[170,258],[168,290]],'var(--horse2)',11);
+  leg([[300,158],[306,196],[304,232],[302,290]],'var(--horse2)',12);
+  /* trup, krk, hlava */
+  g.appendChild(el('path',{fill:'var(--horse)',d:
+    'M96,60 C122,64 150,78 172,94 C212,86 262,84 296,100 C308,105 315,113 316,126 '+
+    'C310,150 302,168 296,190 C288,180 276,172 262,168 C240,180 214,186 196,182 '+
+    'C172,178 152,168 142,152 C134,140 128,120 118,102 C110,94 102,88 96,84 Z'}));
+  g.appendChild(el('path',{fill:'var(--horse)',d:
+    'M96,58 C88,62 70,74 54,88 C46,95 42,100 44,107 C49,113 61,113 71,109 '+
+    'C83,103 97,93 101,85 C103,74 101,64 96,58 Z'}));
+  /* usi */
+  g.appendChild(el('path',{fill:'var(--horse)',d:'M92,60 L95,42 L101,58 Z'}));
+  g.appendChild(el('path',{fill:'var(--horse)',d:'M101,60 L108,45 L110,62 Z'}));
+  /* hriva a ocas */
+  g.appendChild(el('path',{fill:'var(--horse2)',d:
+    'M97,56 C118,60 146,74 170,90 C160,80 132,64 104,52 Z'}));
+  g.appendChild(el('path',{fill:'var(--horse2)',d:
+    'M314,124 C328,146 334,180 330,212 C324,214 318,208 316,196 C314,172 312,146 306,132 Z'}));
+  /* blizsi nohy */
+  leg([[156,150],[152,214],[150,258],[148,288]],'var(--horse)',13);
+  leg([[286,156],[290,196],[289,232],[288,288]],'var(--horse)',14);
+  /* kopyta */
+  g.appendChild(el('rect',{x:141,y:286,width:15,height:9,rx:2,fill:'var(--horseink)'}));
+  g.appendChild(el('rect',{x:281,y:286,width:15,height:9,rx:2,fill:'var(--horseink)'}));
+  g.appendChild(el('rect',{x:161,y:288,width:14,height:8,rx:2,fill:'var(--horseink)',opacity:.6}));
+  g.appendChild(el('rect',{x:295,y:288,width:14,height:8,rx:2,fill:'var(--horseink)',opacity:.6}));
+  svg.appendChild(g);
+  gLab=el('g',{});svg.appendChild(gLab);
+  gDots=el('g',{});svg.appendChild(gDots);
+  var i;
+  for(i=0;i<T.length;i++)(function(i){
+    var c=el('circle',{cx:T[i][1],cy:T[i][2],r:5.5,fill:'var(--card)',
+      stroke:'var(--acc)','stroke-width':2,cursor:'pointer'});
+    c.setAttribute('data-i',i);
+    c.onclick=function(){pick(i)};
+    gDots.appendChild(c);
+  })(i);
+}
+function dot(i){return gDots.childNodes[i]}
+function mark(i,state){
+  var c=dot(i);
+  c.setAttribute('fill', state==='ok'?'var(--ok)':(state==='no'?'var(--err)':
+    (state==='on'?'var(--acc)':'var(--card)')));
+  c.setAttribute('stroke', state==='ok'?'var(--ok)':(state==='no'?'var(--err)':'var(--acc)'));
+}
+function label(i){
+  var t=T[i],x=t[1],y=t[2],side=t[4];
+  var dx=side==='l'?-9:(side==='r'?9:0), dy=side==='u'?-11:(side==='d'?15:4);
+  var anch=side==='l'?'end':(side==='r'?'start':'middle');
+  var g=el('g',{});
+  var txt=el('text',{x:x+dx,y:y+dy,'text-anchor':anch,'font-size':10.5,
+    'font-weight':600,fill:'var(--ink)'});
+  txt.textContent=t[0];
+  g.appendChild(el('rect',{x:0,y:0,width:0,height:0,fill:'none'}));
+  g.appendChild(txt);
+  gLab.appendChild(g);
+  return g;
+}
+function clearLabels(){gLab.innerHTML='';}
+function allLabels(on){
+  clearLabels();
+  var i;for(i=0;i<T.length;i++){mark(i,on?'on':'off');if(on)label(i)}
+}
+
+/* ---- ucebni rezim ---- */
+var quiz=false,cur=-1,good=0,total=0,order=[];
+function pick(i){
+  if(!quiz){
+    clearLabels();
+    var k;for(k=0;k<T.length;k++)mark(k,'off');
+    mark(i,'on');label(i);
+    setTerm(i);
+    return;
+  }
+  answer(i);
+}
+function setTerm(i){
+  var ts=document.getElementsByClassName('term'),k;
+  for(k=0;k<ts.length;k++)ts[k].className='term'+(parseInt(ts[k].getAttribute('data-i'),10)===i?' on':'');
+}
+function buildGroups(){
+  var h='',gi,i;
+  for(gi=0;gi<G.length;gi++){
+    h+='<div class="grp"><h2>'+G[gi]+'</h2><div class="terms">';
+    for(i=0;i<T.length;i++) if(T[i][3]===gi)
+      h+='<button class="term" type="button" data-i="'+i+'">'+T[i][0]+'</button>';
+    h+='</div></div>';
+  }
+  $('groups').innerHTML=h;
+  var ts=document.getElementsByClassName('term');
+  for(i=0;i<ts.length;i++)(function(b){
+    b.onclick=function(){if(quiz)return;pick(parseInt(b.getAttribute('data-i'),10))};
+  })(ts[i]);
+}
+
+/* ---- zkouseni ---- */
+function shuffle(){
+  order=[];var i;for(i=0;i<T.length;i++)order.push(i);
+  for(i=order.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1)),t=order[i];order[i]=order[j];order[j]=t}
+}
+function askNext(){
+  clearLabels();
+  var i;for(i=0;i<T.length;i++)mark(i,'off');
+  $('fb').innerHTML='';
+  if(!order.length)shuffle();
+  cur=order.pop();
+  $('q').textContent='Kde je '+T[cur][0]+'?';
+}
+function answer(i){
+  if(cur<0)return;
+  total++;
+  if(i===cur){
+    good++;mark(i,'ok');label(i);
+    $('fb').innerHTML='<div class="res ok">Sed&iacute;.</div>';
+  }else{
+    mark(i,'no');mark(cur,'ok');label(cur);
+    $('fb').innerHTML='<div class="res no">To je <b>'+T[i][0]+'</b>. Zelen&#283; je spr&aacute;vn&aacute; odpov&#283;&#271;.</div>';
+  }
+  $('score').textContent='Správně '+good+' z '+total;
+  cur=-1;
+}
+$('next').onclick=askNext;
+$('reset').onclick=function(){good=0;total=0;shuffle();$('score').textContent='Správně 0 z 0';askNext()};
+$('allon').onclick=function(){allLabels(true)};
+$('alloff').onclick=function(){allLabels(false)};
+
+function setMode(z){
+  quiz=z;
+  $('tabU').className='tab'+(z?'':' on');
+  $('tabZ').className='tab'+(z?' on':'');
+  $('barU').className=z?'bar hide':'bar';
+  $('barZ').className=z?'bar':'bar hide';
+  $('askbox').className=z?'ask':'ask hide';
+  $('groups').className=z?'hide':'';
+  clearLabels();
+  var i;for(i=0;i<T.length;i++)mark(i,'off');
+  if(z){good=0;total=0;shuffle();$('score').textContent='Správně 0 z 0';askNext()}
+}
+$('tabU').onclick=function(){setMode(false)};
+$('tabZ').onclick=function(){setMode(true)};
+
+var TKEY='zzvj-tema';
+function eff(){var a=document.documentElement.getAttribute('data-theme');
+  if(a)return a;
+  return (window.matchMedia&&window.matchMedia('(prefers-color-scheme:dark)').matches)?'dark':'light'}
+function paintIcon(){$('theme').innerHTML=eff()==='dark'?'☀':'☾'}
+$('theme').onclick=function(){
+  var next=eff()==='dark'?'light':'dark';
+  document.documentElement.setAttribute('data-theme',next);
+  try{localStorage.setItem(TKEY,next)}catch(e){}
+  paintIcon();
+};
+paintIcon();
+drawHorse();buildGroups();
+</script>
+
+</body>
+</html>
