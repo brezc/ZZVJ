@@ -35,6 +35,12 @@ h1{font-size:20px;font-weight:600;margin:0 0 4px}
 .tbtn{flex:0 0 auto;width:38px;height:38px;border-radius:99px;border:1px solid var(--line);
 background:var(--card);color:var(--ink2);font-size:15px;line-height:1;cursor:pointer}
 a.back{color:var(--acc);text-decoration:none;font-size:13px}
+.nav{display:flex;gap:6px;background:var(--card);border:1px solid var(--line);
+border-radius:12px;padding:5px;margin-bottom:14px}
+.nav a{flex:1 1 0;display:flex;align-items:center;justify-content:center;text-align:center;
+font:600 15px/1.2 inherit;padding:12px 8px;border-radius:8px;text-decoration:none;
+color:var(--ink2);min-height:44px}
+.nav a.on{background:var(--acc);color:var(--on-acc)}
 .tabs{display:flex;gap:8px;margin-bottom:14px}
 .tab{flex:1 1 0;font:500 15px/1.2 inherit;padding:12px 10px;border:1px solid var(--line);
 background:var(--card);color:var(--ink);border-radius:10px;cursor:pointer;min-height:46px}
@@ -94,10 +100,11 @@ details.note div{margin-top:8px}
 <div class="wrap">
 <div class="head">
 <div><h1>Drezurní úloha ZZVJ-V / 2025</h1>
-<p class="sub">Obdélník 20 &times; 40 m &middot; 24 cvik&#367; &middot; <a class="back" href="index.html">zp&#283;t na karti&#269;ky</a></p></div>
+<p class="sub">Obd&eacute;ln&iacute;k 20 &times; 40 m &middot; 24 cvik&#367;</p></div>
 <button class="tbtn" id="theme" type="button" aria-label="Sv&#283;tl&yacute; nebo tmav&yacute; re&#382;im">&#9790;</button>
 </div>
 
+<div class="nav"><a href="index.html">Karti&#269;ky</a><a href="drezura.html" class="on">Drezurn&iacute; &uacute;loha</a></div>
 <div class="tabs">
 <button class="tab on" id="tabUk" type="button">Uk&aacute;zka</button>
 <button class="tab" id="tabDr" type="button">Nakresli trasu</button>
